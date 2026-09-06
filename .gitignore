@@ -1,0 +1,25 @@
+# Secrets
+.env
+
+# Qdrant local persistence
+qdrant_storage/
+
+# LLM preamble cache
+cache/
+
+# Generated chunk data (reproducible from source)
+data/chunks/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db

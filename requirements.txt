@@ -1,0 +1,11 @@
+sentence-transformers
+qdrant-client
+rank-bm25
+google-generativeai
+groq
+python-dotenv
+jupyter
+matplotlib
+pandas
+numpy
+tqdm
