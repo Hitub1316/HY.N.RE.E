@@ -9,3 +9,6 @@ matplotlib
 pandas
 numpy
 tqdm
+streamlit
+pypdf
+python-docx

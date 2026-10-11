@@ -4,13 +4,9 @@ retriever.py — Dense, BM25, Hybrid (RRF), and Hybrid+Rerank retrieval.
 All retrieve_* methods return list[RankedPassage]:
     {rank, score, chunk_id, novel, chapter, text, retrieval_method}
 
-Usage:
-    from src.retriever import HybridRetriever
-
-    r = HybridRetriever(strategy="scene")
-    results = r.retrieve_hybrid_reranked("What does Mr. Darcy say to Elizabeth?", top_k=5)
-    for p in results:
-        print(p["rank"], p["score"], p["text"][:120])
+Supports optional neighbor chunk expansion (`expand_neighbors=True`):
+    returns list of evidence_window dicts:
+    {target: RankedPassage, before: chunk_or_None, after: chunk_or_None}
 """
 
 import sys
@@ -33,10 +29,12 @@ def _make_result(rank: int, score: float, chunk: dict, method: str) -> dict:
     return {
         "rank": rank,
         "score": score,
-        "chunk_id": chunk["id"] if "id" in chunk else chunk.get("chunk_id", ""),
+        "chunk_id": chunk.get("chunk_id") or chunk.get("id", ""),
         "novel": chunk.get("novel", ""),
         "chapter": chunk.get("chapter", ""),
-        "text": chunk.get("text", ""),
+        "text": chunk.get("text", ""),  # Always original unmodified text
+        "char_start": chunk.get("char_start", -1),
+        "char_end": chunk.get("char_end", -1),
         "retrieval_method": method,
     }
 
@@ -84,7 +82,7 @@ class HybridRetriever:
         self._embedding_model = None
         self._bm25 = None
         self._bm25_chunks = None
-        self._qdrant = None
+        self._store = None
         self._reranker = None
 
     # ── Lazy loaders ──────────────────────────────────────────────────────────
@@ -100,10 +98,10 @@ class HybridRetriever:
             self._bm25, self._bm25_chunks = load_bm25_index(self.strategy)
         return self._bm25, self._bm25_chunks
 
-    def _get_qdrant(self):
-        if self._qdrant is None:
-            self._qdrant = load_qdrant_client()
-        return self._qdrant
+    def _get_store(self):
+        if self._store is None:
+            self._store = load_qdrant_client()
+        return self._store
 
     def _get_reranker(self):
         if self._reranker is None:
@@ -114,24 +112,23 @@ class HybridRetriever:
     # ── Dense retrieval ───────────────────────────────────────────────────────
 
     def retrieve_dense_only(self, query: str, top_k: int = DEFAULT_TOP_K) -> list[dict]:
-        """Embed query → cosine search in Qdrant → top-K."""
+        """Embed query → cosine search in VectorStore → top-K."""
         embedder = self._get_embedder()
-        qdrant = self._get_qdrant()
+        store = self._get_store()
         collection = _collection_name(self.strategy)
 
         query_vec = embedder.encode(query, normalize_embeddings=True).tolist()
-        hits = qdrant.search(
+        hits = store.search(
             collection_name=collection,
             query_vector=query_vec,
             limit=top_k,
-            with_payload=True,
         )
 
         results = []
         for rank, hit in enumerate(hits):
-            chunk = hit.payload
+            chunk = hit["payload"]
             chunk.setdefault("id", chunk.get("chunk_id", ""))
-            results.append(_make_result(rank + 1, hit.score, chunk, "dense"))
+            results.append(_make_result(rank + 1, hit["score"], chunk, "dense"))
         return results
 
     # ── BM25 retrieval ────────────────────────────────────────────────────────
@@ -156,19 +153,18 @@ class HybridRetriever:
     def _dense_candidates(self, query: str, top_n: int) -> list[dict]:
         """Return top-N dense results as lightweight dicts with chunk_id."""
         embedder = self._get_embedder()
-        qdrant = self._get_qdrant()
+        store = self._get_store()
         collection = _collection_name(self.strategy)
 
         query_vec = embedder.encode(query, normalize_embeddings=True).tolist()
-        hits = qdrant.search(
+        hits = store.search(
             collection_name=collection,
             query_vector=query_vec,
             limit=top_n,
-            with_payload=True,
         )
         results = []
         for hit in hits:
-            payload = dict(hit.payload)
+            payload = dict(hit["payload"])
             payload["chunk_id"] = payload.get("chunk_id", payload.get("id", ""))
             results.append(payload)
         return results
@@ -235,21 +231,88 @@ class HybridRetriever:
             results.append(_make_result(rank + 1, float(cross_scores[idx]), item, "hybrid_reranked"))
         return results
 
-    # ── Convenience ───────────────────────────────────────────────────────────
+    # ── Neighbor Expansion ────────────────────────────────────────────────────
 
-    def retrieve(self, query: str, method: str = "hybrid_reranked", **kwargs) -> list[dict]:
+    def expand_neighbors_for_result(self, result: dict) -> dict:
+        """
+        Fetch preceding and following chunks within the same chapter and novel.
+        Returns:
+            {
+                "target": result,
+                "before": preceding_chunk_or_None,
+                "after": following_chunk_or_None
+            }
+        """
+        _, all_chunks = self._get_bm25()
+        novel = result["novel"]
+        chapter = result["chapter"]
+        target_id = result["chunk_id"]
+
+        # Filter chunks in the same novel and chapter
+        chapter_chunks = [
+            c for c in all_chunks
+            if c.get("novel") == novel and c.get("chapter") == chapter
+        ]
+
+        # Sort by char_start to guarantee sequential order
+        chapter_chunks.sort(key=lambda x: x.get("char_start", 0))
+
+        # Find target chunk index
+        target_idx = None
+        for idx, c in enumerate(chapter_chunks):
+            if c.get("id") == target_id or c.get("chunk_id") == target_id:
+                target_idx = idx
+                break
+
+        if target_idx is None:
+            return {"target": result, "before": None, "after": None}
+
+        before = chapter_chunks[target_idx - 1] if target_idx > 0 else None
+        after = chapter_chunks[target_idx + 1] if target_idx + 1 < len(chapter_chunks) else None
+
+        return {
+            "target": result,
+            "before": before,
+            "after": after,
+        }
+
+    # ── Unified Public Interface ──────────────────────────────────────────────
+
+    def retrieve(
+        self,
+        query: str,
+        method: str = "hybrid_reranked",
+        top_n: int = DEFAULT_TOP_N,
+        top_k: int = DEFAULT_TOP_K,
+        expand_neighbors: bool = False,
+        **kwargs,
+    ) -> list[dict]:
         """
         Dispatch to the appropriate retrieval method.
 
         Args:
+            query: User search query.
             method: One of 'dense', 'bm25', 'hybrid', 'hybrid_reranked'.
+            top_n: Candidate pool size for hybrid fusion.
+            top_k: Final top-K results count.
+            expand_neighbors: If True, returns evidence windows with adjacent chunks.
+
+        Returns:
+            List of RankedPassage dicts (if expand_neighbors=False)
+            OR list of evidence window dicts (if expand_neighbors=True).
         """
-        dispatch = {
-            "dense": self.retrieve_dense_only,
-            "bm25": self.retrieve_bm25_only,
-            "hybrid": self.retrieve_hybrid,
-            "hybrid_reranked": self.retrieve_hybrid_reranked,
-        }
-        if method not in dispatch:
-            raise ValueError(f"Unknown method '{method}'. Choose from {list(dispatch)}.")
-        return dispatch[method](query, **kwargs)
+        if method == "dense":
+            results = self.retrieve_dense_only(query, top_k=top_k)
+        elif method == "bm25":
+            results = self.retrieve_bm25_only(query, top_k=top_k)
+        elif method == "hybrid":
+            results = self.retrieve_hybrid(query, top_n=top_n, top_k=top_k)
+        elif method == "hybrid_reranked":
+            results = self.retrieve_hybrid_reranked(query, top_n=top_n, top_k=top_k, **kwargs)
+        else:
+            raise ValueError(f"Unknown method '{method}'. Choose from ['dense', 'bm25', 'hybrid', 'hybrid_reranked'].")
+
+        if expand_neighbors:
+            return [self.expand_neighbors_for_result(r) for r in results]
+
+        return results

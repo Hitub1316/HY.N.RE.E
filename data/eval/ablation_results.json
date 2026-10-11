@@ -1,0 +1,433 @@
+{
+  "overall_summary": {
+    "BM25 only": {
+      "Recall@5": 0.2449,
+      "MRR": 0.2389,
+      "NDCG@10": 0.2029,
+      "P@5": 0.098
+    },
+    "Dense only": {
+      "Recall@5": 0.1633,
+      "MRR": 0.2536,
+      "NDCG@10": 0.1739,
+      "P@5": 0.0653
+    },
+    "Hybrid (RRF)": {
+      "Recall@5": 0.2347,
+      "MRR": 0.2678,
+      "NDCG@10": 0.2144,
+      "P@5": 0.0939
+    },
+    "Hybrid + Rerank": {
+      "Recall@5": 0.2449,
+      "MRR": 0.3027,
+      "NDCG@10": 0.2447,
+      "P@5": 0.098
+    },
+    "Contextual Hybrid + Rerank": {
+      "Recall@5": 0.2551,
+      "MRR": 0.2967,
+      "NDCG@10": 0.2319,
+      "P@5": 0.102
+    }
+  },
+  "by_category_summary": {
+    "BM25 only": {
+      "canon_rule (R@5)": 0.2143,
+      "canon_rule (MRR)": 0.1786,
+      "event (R@5)": 0.1429,
+      "event (MRR)": 0.1944,
+      "exact_entity (R@5)": 0.5,
+      "exact_entity (MRR)": 0.5218,
+      "paraphrase (R@5)": 0.0714,
+      "paraphrase (MRR)": 0.0476,
+      "relationship (R@5)": 0.2857,
+      "relationship (MRR)": 0.25,
+      "semantic (R@5)": 0.2857,
+      "semantic (MRR)": 0.2857,
+      "temporal (R@5)": 0.2143,
+      "temporal (MRR)": 0.1944
+    },
+    "Dense only": {
+      "canon_rule (R@5)": 0.0714,
+      "canon_rule (MRR)": 0.1429,
+      "event (R@5)": 0.2143,
+      "event (MRR)": 0.3061,
+      "exact_entity (R@5)": 0.2857,
+      "exact_entity (MRR)": 0.5408,
+      "paraphrase (R@5)": 0.2143,
+      "paraphrase (MRR)": 0.2857,
+      "relationship (R@5)": 0.0714,
+      "relationship (MRR)": 0.1429,
+      "semantic (R@5)": 0.0714,
+      "semantic (MRR)": 0.1429,
+      "temporal (R@5)": 0.2143,
+      "temporal (MRR)": 0.2143
+    },
+    "Hybrid (RRF)": {
+      "canon_rule (R@5)": 0.2143,
+      "canon_rule (MRR)": 0.1929,
+      "event (R@5)": 0.2143,
+      "event (MRR)": 0.25,
+      "exact_entity (R@5)": 0.4286,
+      "exact_entity (MRR)": 0.5561,
+      "paraphrase (R@5)": 0.1429,
+      "paraphrase (MRR)": 0.199,
+      "relationship (R@5)": 0.2143,
+      "relationship (MRR)": 0.1837,
+      "semantic (R@5)": 0.2143,
+      "semantic (MRR)": 0.2071,
+      "temporal (R@5)": 0.2143,
+      "temporal (MRR)": 0.2857
+    },
+    "Hybrid + Rerank": {
+      "canon_rule (R@5)": 0.2857,
+      "canon_rule (MRR)": 0.2619,
+      "event (R@5)": 0.1429,
+      "event (MRR)": 0.2109,
+      "exact_entity (R@5)": 0.4286,
+      "exact_entity (MRR)": 0.4667,
+      "paraphrase (R@5)": 0.2143,
+      "paraphrase (MRR)": 0.3889,
+      "relationship (R@5)": 0.2143,
+      "relationship (MRR)": 0.3452,
+      "semantic (R@5)": 0.2143,
+      "semantic (MRR)": 0.2429,
+      "temporal (R@5)": 0.2143,
+      "temporal (MRR)": 0.2024
+    },
+    "Contextual Hybrid + Rerank": {
+      "canon_rule (R@5)": 0.2857,
+      "canon_rule (MRR)": 0.2619,
+      "event (R@5)": 0.1429,
+      "event (MRR)": 0.1905,
+      "exact_entity (R@5)": 0.3571,
+      "exact_entity (MRR)": 0.3918,
+      "paraphrase (R@5)": 0.2143,
+      "paraphrase (MRR)": 0.373,
+      "relationship (R@5)": 0.2857,
+      "relationship (MRR)": 0.3738,
+      "semantic (R@5)": 0.2857,
+      "semantic (MRR)": 0.3143,
+      "temporal (R@5)": 0.2143,
+      "temporal (MRR)": 0.1714
+    }
+  },
+  "raw_results": {
+    "BM25 only": {
+      "system": "scene/bm25",
+      "strategy": "scene",
+      "method": "bm25",
+      "overall": {
+        "precision_at_k": 0.098,
+        "recall_at_k": 0.2449,
+        "mrr": 0.2389,
+        "ndcg_at_10": 0.2029,
+        "n_queries": 49
+      },
+      "by_category": {
+        "canon_rule": {
+          "precision_at_k": 0.0857,
+          "recall_at_k": 0.2143,
+          "mrr": 0.1786,
+          "ndcg_at_10": 0.1401,
+          "n_queries": 7
+        },
+        "event": {
+          "precision_at_k": 0.0571,
+          "recall_at_k": 0.1429,
+          "mrr": 0.1944,
+          "ndcg_at_10": 0.0835,
+          "n_queries": 7
+        },
+        "exact_entity": {
+          "precision_at_k": 0.2,
+          "recall_at_k": 0.5,
+          "mrr": 0.5218,
+          "ndcg_at_10": 0.4898,
+          "n_queries": 7
+        },
+        "paraphrase": {
+          "precision_at_k": 0.0286,
+          "recall_at_k": 0.0714,
+          "mrr": 0.0476,
+          "ndcg_at_10": 0.0562,
+          "n_queries": 7
+        },
+        "relationship": {
+          "precision_at_k": 0.1143,
+          "recall_at_k": 0.2857,
+          "mrr": 0.25,
+          "ndcg_at_10": 0.2525,
+          "n_queries": 7
+        },
+        "semantic": {
+          "precision_at_k": 0.1143,
+          "recall_at_k": 0.2857,
+          "mrr": 0.2857,
+          "ndcg_at_10": 0.2205,
+          "n_queries": 7
+        },
+        "temporal": {
+          "precision_at_k": 0.0857,
+          "recall_at_k": 0.2143,
+          "mrr": 0.1944,
+          "ndcg_at_10": 0.1781,
+          "n_queries": 7
+        }
+      }
+    },
+    "Dense only": {
+      "system": "scene/dense",
+      "strategy": "scene",
+      "method": "dense",
+      "overall": {
+        "precision_at_k": 0.0653,
+        "recall_at_k": 0.1633,
+        "mrr": 0.2536,
+        "ndcg_at_10": 0.1739,
+        "n_queries": 49
+      },
+      "by_category": {
+        "canon_rule": {
+          "precision_at_k": 0.0286,
+          "recall_at_k": 0.0714,
+          "mrr": 0.1429,
+          "ndcg_at_10": 0.0882,
+          "n_queries": 7
+        },
+        "event": {
+          "precision_at_k": 0.0857,
+          "recall_at_k": 0.2143,
+          "mrr": 0.3061,
+          "ndcg_at_10": 0.2222,
+          "n_queries": 7
+        },
+        "exact_entity": {
+          "precision_at_k": 0.1143,
+          "recall_at_k": 0.2857,
+          "mrr": 0.5408,
+          "ndcg_at_10": 0.3734,
+          "n_queries": 7
+        },
+        "paraphrase": {
+          "precision_at_k": 0.0857,
+          "recall_at_k": 0.2143,
+          "mrr": 0.2857,
+          "ndcg_at_10": 0.2189,
+          "n_queries": 7
+        },
+        "relationship": {
+          "precision_at_k": 0.0286,
+          "recall_at_k": 0.0714,
+          "mrr": 0.1429,
+          "ndcg_at_10": 0.1264,
+          "n_queries": 7
+        },
+        "semantic": {
+          "precision_at_k": 0.0286,
+          "recall_at_k": 0.0714,
+          "mrr": 0.1429,
+          "ndcg_at_10": 0.0482,
+          "n_queries": 7
+        },
+        "temporal": {
+          "precision_at_k": 0.0857,
+          "recall_at_k": 0.2143,
+          "mrr": 0.2143,
+          "ndcg_at_10": 0.1399,
+          "n_queries": 7
+        }
+      }
+    },
+    "Hybrid (RRF)": {
+      "system": "scene/hybrid",
+      "strategy": "scene",
+      "method": "hybrid",
+      "overall": {
+        "precision_at_k": 0.0939,
+        "recall_at_k": 0.2347,
+        "mrr": 0.2678,
+        "ndcg_at_10": 0.2144,
+        "n_queries": 49
+      },
+      "by_category": {
+        "canon_rule": {
+          "precision_at_k": 0.0857,
+          "recall_at_k": 0.2143,
+          "mrr": 0.1929,
+          "ndcg_at_10": 0.1815,
+          "n_queries": 7
+        },
+        "event": {
+          "precision_at_k": 0.0857,
+          "recall_at_k": 0.2143,
+          "mrr": 0.25,
+          "ndcg_at_10": 0.1656,
+          "n_queries": 7
+        },
+        "exact_entity": {
+          "precision_at_k": 0.1714,
+          "recall_at_k": 0.4286,
+          "mrr": 0.5561,
+          "ndcg_at_10": 0.3974,
+          "n_queries": 7
+        },
+        "paraphrase": {
+          "precision_at_k": 0.0571,
+          "recall_at_k": 0.1429,
+          "mrr": 0.199,
+          "ndcg_at_10": 0.1868,
+          "n_queries": 7
+        },
+        "relationship": {
+          "precision_at_k": 0.0857,
+          "recall_at_k": 0.2143,
+          "mrr": 0.1837,
+          "ndcg_at_10": 0.2321,
+          "n_queries": 7
+        },
+        "semantic": {
+          "precision_at_k": 0.0857,
+          "recall_at_k": 0.2143,
+          "mrr": 0.2071,
+          "ndcg_at_10": 0.1525,
+          "n_queries": 7
+        },
+        "temporal": {
+          "precision_at_k": 0.0857,
+          "recall_at_k": 0.2143,
+          "mrr": 0.2857,
+          "ndcg_at_10": 0.1847,
+          "n_queries": 7
+        }
+      }
+    },
+    "Hybrid + Rerank": {
+      "system": "scene/hybrid_reranked",
+      "strategy": "scene",
+      "method": "hybrid_reranked",
+      "overall": {
+        "precision_at_k": 0.098,
+        "recall_at_k": 0.2449,
+        "mrr": 0.3027,
+        "ndcg_at_10": 0.2447,
+        "n_queries": 49
+      },
+      "by_category": {
+        "canon_rule": {
+          "precision_at_k": 0.1143,
+          "recall_at_k": 0.2857,
+          "mrr": 0.2619,
+          "ndcg_at_10": 0.2379,
+          "n_queries": 7
+        },
+        "event": {
+          "precision_at_k": 0.0571,
+          "recall_at_k": 0.1429,
+          "mrr": 0.2109,
+          "ndcg_at_10": 0.1098,
+          "n_queries": 7
+        },
+        "exact_entity": {
+          "precision_at_k": 0.1714,
+          "recall_at_k": 0.4286,
+          "mrr": 0.4667,
+          "ndcg_at_10": 0.4648,
+          "n_queries": 7
+        },
+        "paraphrase": {
+          "precision_at_k": 0.0857,
+          "recall_at_k": 0.2143,
+          "mrr": 0.3889,
+          "ndcg_at_10": 0.2993,
+          "n_queries": 7
+        },
+        "relationship": {
+          "precision_at_k": 0.0857,
+          "recall_at_k": 0.2143,
+          "mrr": 0.3452,
+          "ndcg_at_10": 0.2402,
+          "n_queries": 7
+        },
+        "semantic": {
+          "precision_at_k": 0.0857,
+          "recall_at_k": 0.2143,
+          "mrr": 0.2429,
+          "ndcg_at_10": 0.1523,
+          "n_queries": 7
+        },
+        "temporal": {
+          "precision_at_k": 0.0857,
+          "recall_at_k": 0.2143,
+          "mrr": 0.2024,
+          "ndcg_at_10": 0.2085,
+          "n_queries": 7
+        }
+      }
+    },
+    "Contextual Hybrid + Rerank": {
+      "system": "contextual/hybrid_reranked",
+      "strategy": "contextual",
+      "method": "hybrid_reranked",
+      "overall": {
+        "precision_at_k": 0.102,
+        "recall_at_k": 0.2551,
+        "mrr": 0.2967,
+        "ndcg_at_10": 0.2319,
+        "n_queries": 49
+      },
+      "by_category": {
+        "canon_rule": {
+          "precision_at_k": 0.1143,
+          "recall_at_k": 0.2857,
+          "mrr": 0.2619,
+          "ndcg_at_10": 0.2379,
+          "n_queries": 7
+        },
+        "event": {
+          "precision_at_k": 0.0571,
+          "recall_at_k": 0.1429,
+          "mrr": 0.1905,
+          "ndcg_at_10": 0.1098,
+          "n_queries": 7
+        },
+        "exact_entity": {
+          "precision_at_k": 0.1429,
+          "recall_at_k": 0.3571,
+          "mrr": 0.3918,
+          "ndcg_at_10": 0.3561,
+          "n_queries": 7
+        },
+        "paraphrase": {
+          "precision_at_k": 0.0857,
+          "recall_at_k": 0.2143,
+          "mrr": 0.373,
+          "ndcg_at_10": 0.2654,
+          "n_queries": 7
+        },
+        "relationship": {
+          "precision_at_k": 0.1143,
+          "recall_at_k": 0.2857,
+          "mrr": 0.3738,
+          "ndcg_at_10": 0.2837,
+          "n_queries": 7
+        },
+        "semantic": {
+          "precision_at_k": 0.1143,
+          "recall_at_k": 0.2857,
+          "mrr": 0.3143,
+          "ndcg_at_10": 0.2087,
+          "n_queries": 7
+        },
+        "temporal": {
+          "precision_at_k": 0.0857,
+          "recall_at_k": 0.2143,
+          "mrr": 0.1714,
+          "ndcg_at_10": 0.1615,
+          "n_queries": 7
+        }
+      }
+    }
+  }
+}

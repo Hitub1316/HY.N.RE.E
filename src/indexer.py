@@ -1,12 +1,9 @@
 """
-indexer.py — Build dense (Qdrant) and lexical (BM25) indices.
+indexer.py — Build dense (Qdrant via VectorStore) and lexical (BM25) indices.
 
 One index pair per chunking strategy. Collections are named by strategy.
-Qdrant uses local path storage (no Docker required).
-
-Usage:
-    python src/indexer.py --strategy scene
-    python src/indexer.py --strategy all   # index all four strategies
+Embedding step embeds `contextual_text` if present, but BM25 and payloads
+store original unmodified `text`.
 """
 
 import argparse
@@ -15,18 +12,18 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from utils import CHUNKS_DIR, QDRANT_DIR, DATA_DIR, load_json
+from utils import CHUNKS_DIR, DATA_DIR, load_json
+from vector_store import QdrantVectorStore
 
 EMBEDDING_MODEL = "all-MiniLM-L6-v2"
 QDRANT_COLLECTION_PREFIX = "hynree"  # collections named hynree_{strategy}
 BM25_PICKLE_TEMPLATE = str(DATA_DIR / "bm25_{strategy}.pkl")
 
 
-# ── Qdrant helpers ────────────────────────────────────────────────────────────
+# ── VectorStore helpers ───────────────────────────────────────────────────────
 
-def _get_qdrant_client():
-    from qdrant_client import QdrantClient
-    return QdrantClient(path=str(QDRANT_DIR))
+def _get_vector_store():
+    return QdrantVectorStore()
 
 
 def _collection_name(strategy: str) -> str:
@@ -34,50 +31,53 @@ def _collection_name(strategy: str) -> str:
 
 
 def build_dense_index(chunks: list[dict], strategy: str, batch_size: int = 64) -> None:
-    """Embed chunks and upsert into Qdrant collection."""
+    """
+    Embed chunks and upsert into VectorStore collection.
+    Embeds `contextual_text` when available; stores original `text` in payload.
+    """
     from sentence_transformers import SentenceTransformer
-    from qdrant_client.models import Distance, VectorParams, PointStruct
     from tqdm import tqdm
 
     model = SentenceTransformer(EMBEDDING_MODEL)
-    client = _get_qdrant_client()
+    store = _get_vector_store()
     collection = _collection_name(strategy)
 
     # (Re)create collection
-    if client.collection_exists(collection):
-        client.delete_collection(collection)
-        print(f"  Deleted existing Qdrant collection: {collection}")
+    if store.collection_exists(collection):
+        store.delete_collection(collection)
+        print(f"  Deleted existing vector collection: {collection}")
 
-    client.create_collection(
+    store.create_collection(
         collection_name=collection,
-        vectors_config=VectorParams(size=384, distance=Distance.COSINE),
+        vector_size=384,
+        distance="Cosine",
     )
 
-    texts = [c["text"] for c in chunks]
-    ids = list(range(len(chunks)))
-
-    print(f"  Embedding {len(chunks)} chunks with {EMBEDDING_MODEL} ...")
+    print(f"  Embedding {len(chunks)} chunks with {EMBEDDING_MODEL} (using contextual_text if available) ...")
     points = []
     for i in tqdm(range(0, len(chunks), batch_size), desc="Embedding batches"):
         batch_chunks = chunks[i: i + batch_size]
-        batch_texts = [c["text"] for c in batch_chunks]
-        embeddings = model.encode(batch_texts, show_progress_bar=False, normalize_embeddings=True)
+        # Text used for embedding: contextual_text if available, else original text
+        batch_embed_texts = [c.get("contextual_text") or c["text"] for c in batch_chunks]
+        embeddings = model.encode(batch_embed_texts, show_progress_bar=False, normalize_embeddings=True)
         for j, (chunk, emb) in enumerate(zip(batch_chunks, embeddings)):
-            point = PointStruct(
-                id=i + j,
-                vector=emb.tolist(),
-                payload={
+            points.append({
+                "id": i + j,
+                "vector": emb.tolist(),
+                "payload": {
                     "chunk_id": chunk["id"],
                     "novel": chunk["novel"],
                     "strategy": chunk["strategy"],
                     "chapter": chunk.get("chapter", ""),
-                    "text": chunk["text"],
+                    "text": chunk["text"],  # Source of truth original text
+                    "contextual_text": chunk.get("contextual_text", ""),
+                    "char_start": chunk.get("char_start", -1),
+                    "char_end": chunk.get("char_end", -1),
                 },
-            )
-            points.append(point)
+            })
 
-    client.upsert(collection_name=collection, points=points)
-    print(f"  Qdrant collection '{collection}': {len(points)} points upserted.")
+    store.upsert(collection_name=collection, points=points)
+    print(f"  Vector collection '{collection}': {len(points)} points upserted.")
 
 
 # ── BM25 helpers ──────────────────────────────────────────────────────────────
@@ -89,19 +89,19 @@ def _tokenize(text: str) -> list[str]:
 
 
 def build_bm25_index(chunks: list[dict], strategy: str) -> None:
-    """Build BM25Okapi index and pickle to disk."""
+    """Build BM25Okapi index on original text and pickle to disk."""
     from rank_bm25 import BM25Okapi
 
     print(f"  Building BM25 index for strategy='{strategy}' ...")
+    # Always tokenize original text for BM25
     tokenized = [_tokenize(c["text"]) for c in chunks]
     bm25 = BM25Okapi(tokenized)
 
     out_path = Path(BM25_PICKLE_TEMPLATE.format(strategy=strategy))
     with open(out_path, "wb") as f:
-        # Store index + original texts + chunk metadata together
         pickle.dump({"bm25": bm25, "chunks": chunks, "tokenized": tokenized}, f)
 
-    print(f"  BM25 index saved → {out_path}")
+    print(f"  BM25 index saved -> {out_path}")
 
 
 # ── Load indices ──────────────────────────────────────────────────────────────
@@ -117,22 +117,20 @@ def load_bm25_index(strategy: str) -> tuple:
 
 
 def load_qdrant_client():
-    return _get_qdrant_client()
+    """Returns QdrantVectorStore instance."""
+    return _get_vector_store()
 
 
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 def index_strategy(strategy: str) -> None:
-    """Load chunks for `strategy` and build both Qdrant + BM25 indices."""
-    from utils import NOVELS_DIR
-
-    # Collect all chunk files matching this strategy across all novels
+    """Load chunks for `strategy` and build both vector + BM25 indices."""
     pattern = f"*_{strategy}.json"
     chunk_files = list(CHUNKS_DIR.glob(pattern))
 
     if not chunk_files:
         print(f"  ERROR: No chunk files found for strategy='{strategy}' in {CHUNKS_DIR}")
-        print(f"  Run chunker.py first.")
+        print(f"  Run chunker.py / contextual_enrichment.py first.")
         return
 
     all_chunks = []
@@ -145,7 +143,7 @@ def index_strategy(strategy: str) -> None:
 
     build_dense_index(all_chunks, strategy)
     build_bm25_index(all_chunks, strategy)
-    print(f"  ✓ Indexing complete for strategy='{strategy}'.\n")
+    print(f"  [OK] Indexing complete for strategy='{strategy}'.\n")
 
 
 if __name__ == "__main__":

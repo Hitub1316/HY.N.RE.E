@@ -32,9 +32,10 @@ def make_chunk(
     char_start: int,
     char_end: int,
     chapter: str = "",
+    contextual_text: str = "",
 ) -> dict:
     """Return a Chunk dict conforming to the canonical schema."""
-    return {
+    chunk_dict = {
         "id": chunk_id,
         "novel": novel,
         "strategy": strategy,
@@ -43,6 +44,9 @@ def make_chunk(
         "char_end": char_end,
         "chapter": chapter,
     }
+    if contextual_text:
+        chunk_dict["contextual_text"] = contextual_text
+    return chunk_dict
 
 
 # ── Hashing ──────────────────────────────────────────────────────────────────

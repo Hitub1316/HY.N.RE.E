@@ -1,0 +1,737 @@
+[
+  {
+    "query": "What is the name of Mr. Bingley's sister Caroline in Pride and Prejudice?",
+    "category": "exact_entity",
+    "novel": "Pride and Prejudice",
+    "relevant_chunk_ids": [
+      {
+        "id": "Pride and Prejudice__scene__0068",
+        "grade": 3
+      },
+      {
+        "id": "Pride and Prejudice__scene__0221",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "What is the name of Lady Catherine de Bourgh's estate Rosings Park?",
+    "category": "exact_entity",
+    "novel": "Pride and Prejudice",
+    "relevant_chunk_ids": [
+      {
+        "id": "Pride and Prejudice__scene__0325",
+        "grade": 3
+      },
+      {
+        "id": "Pride and Prejudice__scene__0327",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "What is the name of Mr. Darcy's estate Pemberley in Derbyshire?",
+    "category": "exact_entity",
+    "novel": "Pride and Prejudice",
+    "relevant_chunk_ids": [
+      {
+        "id": "Pride and Prejudice__scene__0013",
+        "grade": 3
+      },
+      {
+        "id": "Pride and Prejudice__scene__0068",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "What is the name of Lowood School run by Mr. Brocklehurst?",
+    "category": "exact_entity",
+    "novel": "Jane Eyre",
+    "relevant_chunk_ids": [
+      {
+        "id": "Jane Eyre__scene__0196",
+        "grade": 3
+      },
+      {
+        "id": "Jane Eyre__scene__0889",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "What is the name of Mr. Rochester's estate Thornfield Hall?",
+    "category": "exact_entity",
+    "novel": "Jane Eyre",
+    "relevant_chunk_ids": [
+      {
+        "id": "Jane Eyre__scene__0241",
+        "grade": 3
+      },
+      {
+        "id": "Jane Eyre__scene__0258",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "What is the full name of Theodore Laurence Laurie in Little Women?",
+    "category": "exact_entity",
+    "novel": "Little Women",
+    "relevant_chunk_ids": [
+      {
+        "id": "Little Women__scene__0063",
+        "grade": 3
+      },
+      {
+        "id": "Little Women__scene__0121",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "What is the name of the March family estate Plumfield given by Aunt March?",
+    "category": "exact_entity",
+    "novel": "Little Women",
+    "relevant_chunk_ids": [
+      {
+        "id": "Little Women__scene__0254",
+        "grade": 3
+      },
+      {
+        "id": "Little Women__scene__1127",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "Social pride, class prejudice, and snobbery in upper class courtship",
+    "category": "semantic",
+    "novel": "Pride and Prejudice",
+    "relevant_chunk_ids": [
+      {
+        "id": "Pride and Prejudice__scene__0160",
+        "grade": 3
+      },
+      {
+        "id": "Pride and Prejudice__scene__0106",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "First impressions and misjudgments of character between Elizabeth and Darcy",
+    "category": "semantic",
+    "novel": "Pride and Prejudice",
+    "relevant_chunk_ids": [
+      {
+        "id": "Pride and Prejudice__scene__0014",
+        "grade": 3
+      },
+      {
+        "id": "Pride and Prejudice__scene__0025",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "Themes of spiritual autonomy, moral integrity, and female independence",
+    "category": "semantic",
+    "novel": "Jane Eyre",
+    "relevant_chunk_ids": [
+      {
+        "id": "Jane Eyre__scene__0075",
+        "grade": 3
+      },
+      {
+        "id": "Jane Eyre__scene__0143",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "Helen Burns belief in endurance, Christian forgiveness, and quiet resignation",
+    "category": "semantic",
+    "novel": "Jane Eyre",
+    "relevant_chunk_ids": [
+      {
+        "id": "Jane Eyre__scene__0123",
+        "grade": 3
+      },
+      {
+        "id": "Jane Eyre__scene__0125",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "Sisterly devotion, personal sacrifices, and artistic ambitions among young women",
+    "category": "semantic",
+    "novel": "Little Women",
+    "relevant_chunk_ids": [
+      {
+        "id": "Little Women__scene__0029",
+        "grade": 3
+      },
+      {
+        "id": "Little Women__scene__0035",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "The March sisters playing Pilgrim's Progress to overcome their personal flaws",
+    "category": "semantic",
+    "novel": "Little Women",
+    "relevant_chunk_ids": [
+      {
+        "id": "Little Women__scene__0009",
+        "grade": 3
+      },
+      {
+        "id": "Little Women__scene__0011",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "Domestic contentment, poverty, and family solidarity in 19th century households",
+    "category": "semantic",
+    "novel": "Little Women",
+    "relevant_chunk_ids": [
+      {
+        "id": "Little Women__scene__0232",
+        "grade": 3
+      },
+      {
+        "id": "Little Women__scene__0627",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "How does Elizabeth Bennet's opinion of Mr. Darcy change after reading his letter?",
+    "category": "relationship",
+    "novel": "Pride and Prejudice",
+    "relevant_chunk_ids": [
+      {
+        "id": "Pride and Prejudice__scene__0084",
+        "grade": 3
+      },
+      {
+        "id": "Pride and Prejudice__scene__0086",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "What arguments does Lady Catherine use when confronting Elizabeth about Darcy?",
+    "category": "relationship",
+    "novel": "Pride and Prejudice",
+    "relevant_chunk_ids": [
+      {
+        "id": "Pride and Prejudice__scene__0665",
+        "grade": 3
+      },
+      {
+        "id": "Pride and Prejudice__scene__0668",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "How does Wickham describe his past history with Mr. Darcy to Elizabeth?",
+    "category": "relationship",
+    "novel": "Pride and Prejudice",
+    "relevant_chunk_ids": [
+      {
+        "id": "Pride and Prejudice__scene__0155",
+        "grade": 3
+      },
+      {
+        "id": "Pride and Prejudice__scene__0378_sub08",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "Dynamic and growing affection between Jane Eyre and Mr. Edward Rochester at Thornfield",
+    "category": "relationship",
+    "novel": "Jane Eyre",
+    "relevant_chunk_ids": [
+      {
+        "id": "Jane Eyre__scene__0752",
+        "grade": 3
+      },
+      {
+        "id": "Jane Eyre__scene__0289",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "St. John Rivers proposes to Jane to accompany him to India as his missionary wife",
+    "category": "relationship",
+    "novel": "Jane Eyre",
+    "relevant_chunk_ids": [
+      {
+        "id": "Jane Eyre__scene__1039",
+        "grade": 3
+      },
+      {
+        "id": "Jane Eyre__scene__1046",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "Laurie proposes marriage to Jo March and her emotional rejection of him",
+    "category": "relationship",
+    "novel": "Little Women",
+    "relevant_chunk_ids": [
+      {
+        "id": "Little Women__scene__0471",
+        "grade": 3
+      },
+      {
+        "id": "Little Women__scene__0490",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "Jo March meets Professor Friedrich Bhaer at the New York boarding house",
+    "category": "relationship",
+    "novel": "Little Women",
+    "relevant_chunk_ids": [
+      {
+        "id": "Little Women__scene__0785",
+        "grade": 3
+      },
+      {
+        "id": "Little Women__scene__0837",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "What happens right after Jane Bennet falls ill during her visit to Netherfield?",
+    "category": "temporal",
+    "novel": "Pride and Prejudice",
+    "relevant_chunk_ids": [
+      {
+        "id": "Pride and Prejudice__scene__0017",
+        "grade": 3
+      },
+      {
+        "id": "Pride and Prejudice__scene__0034",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "What events unfold after Bingley suddenly leaves Netherfield for London?",
+    "category": "temporal",
+    "novel": "Pride and Prejudice",
+    "relevant_chunk_ids": [
+      {
+        "id": "Pride and Prejudice__scene__0221",
+        "grade": 3
+      },
+      {
+        "id": "Pride and Prejudice__scene__0252",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "What occurs after the interrupted wedding ceremony between Jane and Rochester?",
+    "category": "temporal",
+    "novel": "Jane Eyre",
+    "relevant_chunk_ids": [
+      {
+        "id": "Jane Eyre__scene__0789",
+        "grade": 3
+      },
+      {
+        "id": "Jane Eyre__scene__0482",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "What happens when Jane returns to Thornfield Hall after leaving the Rivers family?",
+    "category": "temporal",
+    "novel": "Jane Eyre",
+    "relevant_chunk_ids": [
+      {
+        "id": "Jane Eyre__scene__0737",
+        "grade": 3
+      },
+      {
+        "id": "Jane Eyre__scene__1100",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "What occurs after Beth contracts scarlet fever while caring for the Hummel family?",
+    "category": "temporal",
+    "novel": "Little Women",
+    "relevant_chunk_ids": [
+      {
+        "id": "Little Women__scene__0408",
+        "grade": 3
+      },
+      {
+        "id": "Little Women__scene__0406",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "What follows Amy March burning Jo's story manuscript in the fireplace?",
+    "category": "temporal",
+    "novel": "Little Women",
+    "relevant_chunk_ids": [
+      {
+        "id": "Little Women__scene__0180",
+        "grade": 3
+      },
+      {
+        "id": "Little Women__scene__0181",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "Events leading up to Meg March marrying John Brooke",
+    "category": "temporal",
+    "novel": "Little Women",
+    "relevant_chunk_ids": [
+      {
+        "id": "Little Women__scene__0552",
+        "grade": 3
+      },
+      {
+        "id": "Little Women__scene__0540",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "Mr. Collins proposes marriage to Elizabeth Bennet at Longbourn",
+    "category": "event",
+    "novel": "Pride and Prejudice",
+    "relevant_chunk_ids": [
+      {
+        "id": "Pride and Prejudice__scene__0210",
+        "grade": 3
+      },
+      {
+        "id": "Pride and Prejudice__scene__0133",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "Lydia Bennet elopes with Wickham causing a family scandal",
+    "category": "event",
+    "novel": "Pride and Prejudice",
+    "relevant_chunk_ids": [
+      {
+        "id": "Pride and Prejudice__scene__0415",
+        "grade": 3
+      },
+      {
+        "id": "Pride and Prejudice__scene__0509_sub00",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "Mr. Darcy makes his second proposal of marriage to Elizabeth during a walk",
+    "category": "event",
+    "novel": "Pride and Prejudice",
+    "relevant_chunk_ids": [
+      {
+        "id": "Pride and Prejudice__scene__0104",
+        "grade": 3
+      },
+      {
+        "id": "Pride and Prejudice__scene__0137",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "Bertha Mason sets fire to Mr. Rochester's bed at Thornfield",
+    "category": "event",
+    "novel": "Jane Eyre",
+    "relevant_chunk_ids": [
+      {
+        "id": "Jane Eyre__scene__0370",
+        "grade": 3
+      },
+      {
+        "id": "Jane Eyre__scene__0372",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "Jane meets Mr. Rochester for the first time on the icy lane near Hay",
+    "category": "event",
+    "novel": "Jane Eyre",
+    "relevant_chunk_ids": [
+      {
+        "id": "Jane Eyre__scene__0283",
+        "grade": 3
+      },
+      {
+        "id": "Jane Eyre__scene__0288",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "Jo cuts off her long hair and sells it to help send money to her father",
+    "category": "event",
+    "novel": "Little Women",
+    "relevant_chunk_ids": [
+      {
+        "id": "Little Women__scene__0376",
+        "grade": 3
+      },
+      {
+        "id": "Little Women__scene__0466",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "Beth March dies peacefully surrounded by her family",
+    "category": "event",
+    "novel": "Little Women",
+    "relevant_chunk_ids": [
+      {
+        "id": "Little Women__scene__0980",
+        "grade": 3
+      },
+      {
+        "id": "Little Women__scene__0108",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "Entailment of the Bennet estate to Mr. Collins due to lack of male heirs",
+    "category": "canon_rule",
+    "novel": "Pride and Prejudice",
+    "relevant_chunk_ids": [
+      {
+        "id": "Pride and Prejudice__scene__0425",
+        "grade": 3
+      },
+      {
+        "id": "Pride and Prejudice__scene__0315",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "Social requirements regarding female decorum and modest financial expectations in marriage",
+    "category": "canon_rule",
+    "novel": "Pride and Prejudice",
+    "relevant_chunk_ids": [
+      {
+        "id": "Pride and Prejudice__scene__0234",
+        "grade": 3
+      },
+      {
+        "id": "Pride and Prejudice__scene__0029",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "Legal rights of husbands over their wives' private property and inherits in Victorian era",
+    "category": "canon_rule",
+    "novel": "Jane Eyre",
+    "relevant_chunk_ids": [
+      {
+        "id": "Jane Eyre__scene__0315",
+        "grade": 3
+      },
+      {
+        "id": "Jane Eyre__scene__0670",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "Strict rules and harsh discipline imposed on pupils at Lowood institution",
+    "category": "canon_rule",
+    "novel": "Jane Eyre",
+    "relevant_chunk_ids": [
+      {
+        "id": "Jane Eyre__scene__0067",
+        "grade": 3
+      },
+      {
+        "id": "Jane Eyre__scene__0144",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "Victorian societal status and delicate boundaries surrounding governesses",
+    "category": "canon_rule",
+    "novel": "Jane Eyre",
+    "relevant_chunk_ids": [
+      {
+        "id": "Jane Eyre__scene__0198",
+        "grade": 3
+      },
+      {
+        "id": "Jane Eyre__scene__0117",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "Nineteenth century New England social expectations for young ladies' behavior",
+    "category": "canon_rule",
+    "novel": "Little Women",
+    "relevant_chunk_ids": [
+      {
+        "id": "Little Women__scene__0136",
+        "grade": 3
+      },
+      {
+        "id": "Little Women__scene__0910",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "Terms of Aunt March's bequest of Plumfield estate to Jo",
+    "category": "canon_rule",
+    "novel": "Little Women",
+    "relevant_chunk_ids": [
+      {
+        "id": "Little Women__scene__0254",
+        "grade": 3
+      },
+      {
+        "id": "Little Women__scene__1127",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "A wealthy unmarried gentleman is bound to be sought after as a prospective husband by local families",
+    "category": "paraphrase",
+    "novel": "Pride and Prejudice",
+    "relevant_chunk_ids": [
+      {
+        "id": "Pride and Prejudice__scene__0000",
+        "grade": 3
+      },
+      {
+        "id": "Pride and Prejudice__scene__0001",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "Elizabeth observes that Darcy's haughty behavior at the ball alienated everyone present",
+    "category": "paraphrase",
+    "novel": "Pride and Prejudice",
+    "relevant_chunk_ids": [
+      {
+        "id": "Pride and Prejudice__scene__0014",
+        "grade": 3
+      },
+      {
+        "id": "Pride and Prejudice__scene__0527",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "Elizabeth admits to her sister that her affection grew gradually upon seeing his grand estate",
+    "category": "paraphrase",
+    "novel": "Pride and Prejudice",
+    "relevant_chunk_ids": [
+      {
+        "id": "Pride and Prejudice__scene__0696",
+        "grade": 3
+      },
+      {
+        "id": "Pride and Prejudice__scene__0034",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "The narrator reflects on ultimately wedding her companion at Ferndean",
+    "category": "paraphrase",
+    "novel": "Jane Eyre",
+    "relevant_chunk_ids": [
+      {
+        "id": "Jane Eyre__scene__0737",
+        "grade": 3
+      },
+      {
+        "id": "Jane Eyre__scene__0971",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "The young orphan suffers terrifying visions while locked in the red bedchamber",
+    "category": "paraphrase",
+    "novel": "Jane Eyre",
+    "relevant_chunk_ids": [
+      {
+        "id": "Jane Eyre__scene__0024",
+        "grade": 3
+      },
+      {
+        "id": "Jane Eyre__scene__0026",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "The March sisters complain about having no gifts for the upcoming winter holiday due to financial hardship",
+    "category": "paraphrase",
+    "novel": "Little Women",
+    "relevant_chunk_ids": [
+      {
+        "id": "Little Women__scene__0000",
+        "grade": 3
+      },
+      {
+        "id": "Little Women__scene__0001",
+        "grade": 2
+      }
+    ]
+  },
+  {
+    "query": "Jo experiences deep artistic frustration after her sister burns her notebook out of spite",
+    "category": "paraphrase",
+    "novel": "Little Women",
+    "relevant_chunk_ids": [
+      {
+        "id": "Little Women__scene__0019",
+        "grade": 3
+      },
+      {
+        "id": "Little Women__scene__0026",
+        "grade": 2
+      }
+    ]
+  }
+]

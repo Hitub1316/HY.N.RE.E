@@ -343,22 +343,21 @@ def chunk_and_save(text: str, strategy: str, novel: str) -> list[dict]:
 
 
 if __name__ == "__main__":
-    # Quick smoke test: chunk Pride and Prejudice with all strategies
     import sys
     sys.path.insert(0, str(Path(__file__).resolve().parent))
     from utils import NOVELS_DIR
 
-    novel = "Pride and Prejudice"
-    path = NOVELS_DIR / f"{novel}.txt"
-    if not path.exists():
-        print(f"ERROR: {path} not found. Run corpus_prep.py first.")
-        sys.exit(1)
+    novels = ["Pride and Prejudice", "Jane Eyre", "Little Women"]
+    print("=== Chunking Full Corpus ===")
 
-    text = path.read_text(encoding="utf-8")
-    print(f"=== Chunking smoke test: {novel} ({len(text.split()):,} words) ===\n")
+    for novel in novels:
+        path = NOVELS_DIR / f"{novel}.txt"
+        if not path.exists():
+            print(f"ERROR: {path} not found. Run corpus_prep.py first.")
+            continue
 
-    for strat in ("fixed", "paragraph", "scene"):  # skip contextual (needs LLM)
-        chunks = chunk(text, strat, novel)
-        token_lengths = [token_count(c["text"]) for c in chunks]
-        avg_tokens = sum(token_lengths) / len(token_lengths) if token_lengths else 0
-        print(f"  {strat:12s}: {len(chunks):4d} chunks | avg {avg_tokens:.0f} tokens")
+        text = path.read_text(encoding="utf-8")
+        print(f"\n--- {novel} ({len(text.split()):,} words) ---")
+
+        for strat in ("fixed", "paragraph", "scene"):
+            chunk_and_save(text, strat, novel)

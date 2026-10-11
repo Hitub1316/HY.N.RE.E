@@ -26,8 +26,8 @@ GUTENBERG_URLS = {
     "Little Women":        "https://www.gutenberg.org/files/514/514-0.txt",
 }
 
-# Approx. word cap per novel — limits LLM preamble cost in Phase 3.
-WORD_CAP = 30_000
+# Approx. word cap per novel — None means full text.
+WORD_CAP = None
 
 
 # ── Cleaning helpers ─────────────────────────────────────────────────────────
@@ -83,8 +83,10 @@ def clean_text(text: str) -> str:
     return text.strip()
 
 
-def trim_to_word_cap(text: str, cap: int = WORD_CAP) -> str:
+def trim_to_word_cap(text: str, cap: int | None = WORD_CAP) -> str:
     """Trim text to approximately `cap` words at the nearest sentence boundary while preserving newlines."""
+    if cap is None:
+        return text
     words = text.split()
     if len(words) <= cap:
         return text
@@ -119,9 +121,34 @@ def download_novel(title: str, url: str) -> str:
         return raw.decode("latin-1")
 
 
+def prep_novel(title: str, word_cap: int | None = WORD_CAP, force_download: bool = False) -> str:
+    """Prepare a single novel by title."""
+    url = GUTENBERG_URLS.get(title)
+    filename = NOVELS_DIR / f"{title}.txt"
+
+    if not filename.exists() or force_download:
+        if not url:
+            raise ValueError(f"No Gutenberg URL registered for novel '{title}'")
+        raw = download_novel(title, url)
+        filename.write_text(raw, encoding="utf-8")
+        print(f"  Saved raw text -> {filename}")
+    else:
+        print(f"  Found existing file: {filename}")
+        raw = filename.read_text(encoding="utf-8")
+
+    text = strip_gutenberg_boilerplate(raw)
+    text = clean_text(text)
+    text = trim_to_word_cap(text, cap=word_cap)
+
+    word_count = len(text.split())
+    print(f"  {title}: {word_count:,} words after cleaning + trim")
+    filename.write_text(text, encoding="utf-8")
+    return text
+
+
 # ── Main pipeline ─────────────────────────────────────────────────────────────
 
-def prepare_corpus(word_cap: int = WORD_CAP, force_download: bool = False) -> list[dict]:
+def prepare_corpus(word_cap: int | None = WORD_CAP, force_download: bool = False) -> list[dict]:
     """
     Prepare all three novels. For each:
       1. Download from Gutenberg if not already present (or force_download=True).
@@ -132,26 +159,8 @@ def prepare_corpus(word_cap: int = WORD_CAP, force_download: bool = False) -> li
     corpus = []
 
     for title, url in GUTENBERG_URLS.items():
-        filename = NOVELS_DIR / f"{title}.txt"
-
-        if not filename.exists() or force_download:
-            raw = download_novel(title, url)
-            filename.write_text(raw, encoding="utf-8")
-            print(f"  Saved raw text -> {filename}")
-        else:
-            print(f"  Found existing file: {filename}")
-            raw = filename.read_text(encoding="utf-8")
-
-        text = strip_gutenberg_boilerplate(raw)
-        text = clean_text(text)
-        text = trim_to_word_cap(text, cap=word_cap)
-
+        text = prep_novel(title, word_cap=word_cap, force_download=force_download)
         word_count = len(text.split())
-        print(f"  {title}: {word_count:,} words after cleaning + trim")
-
-        # Overwrite the file with cleaned version
-        filename.write_text(text, encoding="utf-8")
-
         corpus.append({"novel_name": title, "text": text, "word_count": word_count})
 
     # Persist corpus metadata
@@ -165,8 +174,8 @@ def prepare_corpus(word_cap: int = WORD_CAP, force_download: bool = False) -> li
 
 
 if __name__ == "__main__":
-    print("=== Corpus Preparation ===")
+    print("=== Corpus Preparation (Full Length) ===")
     NOVELS_DIR.mkdir(parents=True, exist_ok=True)
-    result = prepare_corpus()
+    result = prepare_corpus(word_cap=None, force_download=True)
     total_words = sum(c["word_count"] for c in result)
     print(f"\nTotal corpus: {total_words:,} words across {len(result)} novels.")
