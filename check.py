@@ -29,3 +29,6 @@ for h in random.sample([h for h in pre if h in h2c], 3):
     print("\n", novel, c["id"], "|", c.get("chapter"))
     print("CHUNK:", c["text"][:300].replace("\n", " "))
     print("PREAMBLE:", v["preamble"] if isinstance(v, dict) else v)
+
+print("Preambles mentioning 'chapter':",
+      sum("chapter" in t.lower() for t in texts))
